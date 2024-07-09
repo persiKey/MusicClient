@@ -11,6 +11,6 @@ public interface RetrofitTest {
     @GET("artists/{id}")
     Call<ResponseBody> getData(@Path("id") String id);
 
-    @GET("artists/{id}")
+    @GET("albums/{id}")
     Call<ArtistResponse> getData(@Path("id") String id, @Header("Authorization") String token);
 }

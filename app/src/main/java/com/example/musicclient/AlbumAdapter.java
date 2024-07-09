@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
-    Album localAlbums[];
+import java.util.List;
 
-    AlbumAdapter(Album albums[])
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
+    List<Album> localAlbums;
+
+    AlbumAdapter(List<Album> albums)
     {
         localAlbums = albums;
     }
@@ -26,12 +28,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {
-        holder.getTextView().setText(localAlbums[position].name);
+        holder.getTextView().setText(localAlbums.get(position).name);
+        if(localAlbums.get(position).cover != null) {
+            holder.getImageView().setImageBitmap(localAlbums.get(position).cover);
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return localAlbums.length;
+        return localAlbums.size();
     }
 }

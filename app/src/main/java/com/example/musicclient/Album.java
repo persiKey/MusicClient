@@ -1,9 +1,10 @@
 package com.example.musicclient;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 
 public class Album {
-    public Image cover;
+    public Bitmap cover;
     public String name;
 
     public Album(String album_name)
