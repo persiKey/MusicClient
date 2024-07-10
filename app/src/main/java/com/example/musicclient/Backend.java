@@ -14,9 +14,6 @@ public interface Backend {
                                       @Query("limit") int limit);
 
     @GET("albums/{id}")
-    Call<ArtistResponse> getAlbumInfo(@Path("id") String id, @Header("Authorization") String token);
+    Call<ResponseBody> getAlbumInfo(@Path("id") String id, @Header("Authorization") String token);
 
-
-    @GET("albums/{id}")
-    Call<ArtistResponse> getData(@Path("id") String id, @Header("Authorization") String token);
 }
