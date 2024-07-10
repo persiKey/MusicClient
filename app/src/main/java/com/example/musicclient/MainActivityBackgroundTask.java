@@ -6,6 +6,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.musicclient.datalayer.Album;
+import com.example.musicclient.datalayer.Backend;
+import com.example.musicclient.datalayer.responses.Item;
+import com.example.musicclient.datalayer.responses.NewReleasesResponse;
+import com.example.musicclient.ui.AlbumAdapter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

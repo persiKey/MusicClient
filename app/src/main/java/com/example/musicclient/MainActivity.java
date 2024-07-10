@@ -14,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicclient.datalayer.Album;
+import com.example.musicclient.ui.AlbumAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(albumAdapter);
 
-        if(savedInstanceState == null)
-        {
+        if (savedInstanceState == null) {
             backgroundWorker = new HandlerThread("Main Activity background worked");
             backgroundWorker.start();
             Handler myHandler = new Handler(backgroundWorker.getLooper());

@@ -1,7 +1,6 @@
-package com.example.musicclient;
+package com.example.musicclient.datalayer;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 
 public class Album {
     public Bitmap cover;

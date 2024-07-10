@@ -1,4 +1,4 @@
-package com.example.musicclient;
+package com.example.musicclient.ui;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicclient.R;
+import com.example.musicclient.datalayer.Album;
+
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
     List<Album> localAlbums;
 
-    AlbumAdapter(List<Album> albums)
+    public AlbumAdapter(List<Album> albums)
     {
         localAlbums = albums;
     }

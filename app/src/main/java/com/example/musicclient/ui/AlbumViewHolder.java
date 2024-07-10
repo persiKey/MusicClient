@@ -1,6 +1,5 @@
-package com.example.musicclient;
+package com.example.musicclient.ui;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.musicclient.R;
 
 public class AlbumViewHolder extends RecyclerView.ViewHolder {
     private final ImageView imageView;

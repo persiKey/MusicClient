@@ -1,4 +1,6 @@
-package com.example.musicclient;
+package com.example.musicclient.datalayer;
+
+import com.example.musicclient.datalayer.responses.NewReleasesResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -11,7 +13,7 @@ public interface Backend {
 
     @GET("browse/new-releases")
     Call<NewReleasesResponse> getNewReleases(@Header("Authorization") String token,
-                                      @Query("limit") int limit);
+                                             @Query("limit") int limit);
 
     @GET("albums/{id}")
     Call<ResponseBody> getAlbumInfo(@Path("id") String id, @Header("Authorization") String token);
