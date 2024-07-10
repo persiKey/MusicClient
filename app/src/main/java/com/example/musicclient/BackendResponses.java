@@ -5,7 +5,22 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class NewReleasesResponse {
+
+class NewReleasesResponse{
+    @SerializedName("albums")
+    @Expose
+    private Albums albums;
+
+    public Albums getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(Albums albums) {
+        this.albums = albums;
+    }
+}
+
+class Albums {
 
     @SerializedName("href")
     @Expose

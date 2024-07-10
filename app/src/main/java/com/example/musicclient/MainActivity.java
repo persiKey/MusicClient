@@ -46,14 +46,6 @@ public class MainActivity extends AppCompatActivity {
         });
         List<Album> Albums = new ArrayList<Album>();
 
-        if(savedInstanceState == null)
-        {
-            backgroundWorker = new HandlerThread("Main Activity background worked");
-            backgroundWorker.start();
-            Handler myHandler = new Handler(backgroundWorker.getLooper());
-            myHandler.post(new MainActivityBackgroundTask(Albums));
-        }
-
         Albums.add(new Album("Tesing"));
         Albums.add(new Album("TESTING"));
         Albums.add(new Album("TeStInG"));
@@ -64,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(albumAdapter);
 
+        if(savedInstanceState == null)
+        {
+            backgroundWorker = new HandlerThread("Main Activity background worked");
+            backgroundWorker.start();
+            Handler myHandler = new Handler(backgroundWorker.getLooper());
+            //myHandler.post(new MainActivityBackgroundTask(albumAdapter, Albums));
+            Thread t = new Thread(new MainActivityBackgroundTask(albumAdapter, Albums));
+            t.start();
+        }
 
         Button button = findViewById(R.id.button_my);
         button.setOnClickListener(view -> {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
             Backend service = retrofit.create(Backend.class);
 
-            Call<ArtistResponse> res = service.getData("4aawyAB9vmqN3uQ7FjRGTy", "Bearer ");
+            Call<ArtistResponse> res = service.getData("4aawyAB9vmqN3uQ7FjRGTy", MainActivityBackgroundTask.TOKEN);
             res.enqueue(new Callback<ArtistResponse>() {
                 @Override
                 public void onResponse(Call<ArtistResponse> call, Response<ArtistResponse> response) {
@@ -130,4 +131,5 @@ public class MainActivity extends AppCompatActivity {
             });
         });
     }
+
 }
