@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -16,11 +14,9 @@ import java.net.URL;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 
 
 public class MainActivityBackgroundTask implements Runnable{
@@ -37,8 +33,6 @@ public class MainActivityBackgroundTask implements Runnable{
     }
     @Override
     public void run() {
-
-        Log.e(TAG, "is on main " + (Looper.getMainLooper().getThread() == Thread.currentThread()));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spotify.com/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -66,31 +60,6 @@ public class MainActivityBackgroundTask implements Runnable{
             Log.e(TAG, "Fail");
             throw new RuntimeException(e);
         }
-//        res.enqueue(new Callback<NewReleasesResponse>() {
-//            @Override
-//            public void onResponse(Call<NewReleasesResponse> call, Response<NewReleasesResponse> response) {
-//                Log.e(TAG, "On response is on main " + (Looper.getMainLooper().getThread() == Thread.currentThread()));
-//                if (response.isSuccessful()) {
-//                    Log.i(TAG, "Success");
-//                    HandleSuccess(response.body());
-//                }
-//                else {
-//                    Log.e(TAG, "Bad response");
-//
-//                    try {
-//                        Log.i(TAG, response.errorBody().string());
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<NewReleasesResponse> call, Throwable throwable) {
-//                Log.e(TAG, "Fail");
-//            }
-//
-//        });
 
     }
 
@@ -117,7 +86,7 @@ public class MainActivityBackgroundTask implements Runnable{
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        albumAdapter.notifyItemChanged( finalCounter);
+                        albumAdapter.notifyItemChanged(finalCounter);
                     }
                 });
                 counter++;
