@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 
@@ -33,8 +32,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    static String TOKEN = "BQDIc8trZEQUM2aVvDYKwKm2A5tH4zxmExcd9l1w8ky0jrNf8usr9mBGjRhPZtgt1cBcCMrywz2taLUjrs3MSri68-keow31YNsQPG6zPP4FmkT6bBQ";
-
     private HandlerThread backgroundWorker;
 
     @Override
@@ -75,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            RetrofitTest service = retrofit.create(RetrofitTest.class);
+            Backend service = retrofit.create(Backend.class);
 
-            Call<ArtistResponse> res = service.getData("4aawyAB9vmqN3uQ7FjRGTy", "Bearer " + TOKEN);
+            Call<ArtistResponse> res = service.getData("4aawyAB9vmqN3uQ7FjRGTy", "Bearer ");
             res.enqueue(new Callback<ArtistResponse>() {
                 @Override
                 public void onResponse(Call<ArtistResponse> call, Response<ArtistResponse> response) {
