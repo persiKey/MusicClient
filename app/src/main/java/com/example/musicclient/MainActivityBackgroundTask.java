@@ -49,12 +49,7 @@ public class MainActivityBackgroundTask implements Runnable{
             }
             else {
                 Log.e(TAG, "Bad response");
-
-                try {
-                    Log.i(TAG, response.errorBody().string());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Log.i(TAG, response.errorBody().string());
             }
         } catch (IOException e) {
             Log.e(TAG, "Fail");
