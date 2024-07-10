@@ -4,16 +4,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +26,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     static String TOKEN = "BQDIc8trZEQUM2aVvDYKwKm2A5tH4zxmExcd9l1w8ky0jrNf8usr9mBGjRhPZtgt1cBcCMrywz2taLUjrs3MSri68-keow31YNsQPG6zPP4FmkT6bBQ";
+
+    private HandlerThread backgroundWorker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +47,19 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        Album albums[] = {
-                new Album("Tesing"),
-                new Album("TESTING"),
-                new Album("TeStInG"),
-        };
-
         List<Album> Albums = new ArrayList<Album>();
+
+        if(savedInstanceState == null)
+        {
+            backgroundWorker = new HandlerThread("Main Activity background worked");
+            backgroundWorker.start();
+            Handler myHandler = new Handler(backgroundWorker.getLooper());
+            myHandler.post(new MainActivityBackgroundTask(Albums));
+        }
+
         Albums.add(new Album("Tesing"));
         Albums.add(new Album("TESTING"));
         Albums.add(new Album("TeStInG"));
-
 
 
         AlbumAdapter albumAdapter = new AlbumAdapter(Albums);
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         Button button = findViewById(R.id.button_my);
         button.setOnClickListener(view -> {
             Retrofit retrofit = new Retrofit.Builder()
-//                    .baseUrl("https://jsonplaceholder.typicode.com/")
                     .baseUrl("https://api.spotify.com/v1/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
