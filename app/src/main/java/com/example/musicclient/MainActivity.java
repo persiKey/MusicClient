@@ -46,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
         });
         List<Album> Albums = new ArrayList<Album>();
 
-        Albums.add(new Album("Tesing"));
-        Albums.add(new Album("TESTING"));
-        Albums.add(new Album("TeStInG"));
-
 
         AlbumAdapter albumAdapter = new AlbumAdapter(Albums);
         RecyclerView recyclerView = findViewById(R.id.album_recycler);
@@ -61,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
             backgroundWorker = new HandlerThread("Main Activity background worked");
             backgroundWorker.start();
             Handler myHandler = new Handler(backgroundWorker.getLooper());
-            //myHandler.post(new MainActivityBackgroundTask(albumAdapter, Albums));
-            Thread t = new Thread(new MainActivityBackgroundTask(albumAdapter, Albums));
-            t.start();
+            myHandler.post(new MainActivityBackgroundTask(albumAdapter, Albums));
+            //Thread t = new Thread(new MainActivityBackgroundTask(albumAdapter, Albums));
+            //t.start();
+            Log.i("MAIN ACT", "After start");
         }
 
         Button button = findViewById(R.id.button_my);
