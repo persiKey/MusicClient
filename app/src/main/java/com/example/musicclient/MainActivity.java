@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicclient.datalayer.Album;
+import com.example.musicclient.datalayer.AlbumsSSOT;
 import com.example.musicclient.ui.AlbumAdapter;
 
 import java.util.ArrayList;
@@ -34,19 +35,18 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        List<Album> Albums = new ArrayList<Album>();
 
 
-        AlbumAdapter albumAdapter = new AlbumAdapter(Albums);
+        AlbumAdapter albumAdapter = new AlbumAdapter(AlbumsSSOT.GetInstance().getAlbums());
         RecyclerView recyclerView = findViewById(R.id.album_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(albumAdapter);
 
         if (savedInstanceState == null) {
-            backgroundWorker = new HandlerThread("Main Activity background worked");
+            backgroundWorker = new HandlerThread("Main Activity background worker");
             backgroundWorker.start();
             Handler myHandler = new Handler(backgroundWorker.getLooper());
-            myHandler.post(new MainActivityBackgroundTask(albumAdapter, Albums));
+            myHandler.post(new MainActivityBackgroundTask(albumAdapter));
         }
 
 

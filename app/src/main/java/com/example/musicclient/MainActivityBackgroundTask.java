@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.example.musicclient.datalayer.Album;
+import com.example.musicclient.datalayer.AlbumsSSOT;
 import com.example.musicclient.datalayer.Backend;
 import com.example.musicclient.datalayer.responses.Item;
 import com.example.musicclient.datalayer.responses.NewReleasesResponse;
@@ -25,18 +26,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivityBackgroundTask implements Runnable{
+public class MainActivityBackgroundTask implements Runnable {
     static String TOKEN_TYPE = "Bearer ";
-    public static String TOKEN = TOKEN_TYPE
-        + "BQB31X0MpaArNeRX4DCoUjCWLFo_10jaML9dRatDLE1POCixp_yTCRoFnrMmN9xShTvMgvqEwIem8VA6xC2CaOABjjZ3zVml0cylkrYnnG2bZamtYRw";
+    public static String TOKEN = TOKEN_TYPE +
+            "BQB31X0MpaArNeRX4DCoUjCWLFo_10jaML9dRatDLE1POCixp_yTCRoFnrMmN9xShTvMgvqEwIem8VA6xC2CaOABjjZ3zVml0cylkrYnnG2bZamtYRw";
 
     private static String TAG = "MainActivityBackgroundTask";
-    private List<Album> albumList;
     private AlbumAdapter albumAdapter;
-    MainActivityBackgroundTask(AlbumAdapter adapter, List<Album> albums){
-        albumList = albums;
+
+    MainActivityBackgroundTask(AlbumAdapter adapter) {
         albumAdapter = adapter;
     }
+
     @Override
     public void run() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -52,8 +53,7 @@ public class MainActivityBackgroundTask implements Runnable{
             if (response.isSuccessful()) {
                 Log.i(TAG, "Success");
                 HandleSuccess(response.body());
-            }
-            else {
+            } else {
                 Log.e(TAG, "Bad response");
                 Log.i(TAG, response.errorBody().string());
             }
@@ -64,8 +64,7 @@ public class MainActivityBackgroundTask implements Runnable{
 
     }
 
-    void HandleSuccess(NewReleasesResponse response)
-    {
+    void HandleSuccess(NewReleasesResponse response) {
         int counter = 0;
         for (Item i : response.getAlbums().getItems()) {
 
@@ -79,7 +78,7 @@ public class MainActivityBackgroundTask implements Runnable{
 
                 Album album = new Album(i.getName());
                 album.cover = myBitmap;
-                albumList.add(album);
+                AlbumsSSOT.GetInstance().insert(album);
 
                 Handler mainHandler = new Handler(Looper.getMainLooper());
 
