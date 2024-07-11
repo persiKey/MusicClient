@@ -27,9 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivityBackgroundTask implements Runnable {
+    static final int ALBUM_LIMIT = 10;
+    static final int INDEX_OF_THE_BIGGEST_IMAGE = 2;
     static String TOKEN_TYPE = "Bearer ";
     public static String TOKEN = TOKEN_TYPE +
-            "BQB31X0MpaArNeRX4DCoUjCWLFo_10jaML9dRatDLE1POCixp_yTCRoFnrMmN9xShTvMgvqEwIem8VA6xC2CaOABjjZ3zVml0cylkrYnnG2bZamtYRw";
+            "BQA2NRwjr5MQfyG9xZoRBTZCx-Vs2-vfGvVsbrzFfuhxSvtz7F8REU6-mIYDvh8VLe4PpK174zBc78GWOGcHUaqRcRYUUh3isCYeoZ4msxMxkDmtreE";
 
     private static String TAG = "MainActivityBackgroundTask";
     private AlbumAdapter albumAdapter;
@@ -47,7 +49,7 @@ public class MainActivityBackgroundTask implements Runnable {
 
         Backend service = retrofit.create(Backend.class);
 
-        Call<NewReleasesResponse> res = service.getNewReleases(TOKEN, 10);
+        Call<NewReleasesResponse> res = service.getNewReleases(TOKEN, ALBUM_LIMIT);
         try {
             Response<NewReleasesResponse> response = res.execute();
             if (response.isSuccessful()) {
@@ -69,7 +71,7 @@ public class MainActivityBackgroundTask implements Runnable {
         for (Item i : response.getAlbums().getItems()) {
 
             try {
-                URL url = new URL(i.getImages().get(2).getUrl());
+                URL url = new URL(i.getImages().get(INDEX_OF_THE_BIGGEST_IMAGE).getUrl());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

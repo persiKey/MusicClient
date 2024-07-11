@@ -1,6 +1,8 @@
 package com.example.musicclient.datalayer;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class AlbumsSSOT {
@@ -21,7 +23,7 @@ public class AlbumsSSOT {
     }
 
     public List<Album> getAlbums() {
-        return Albums;
+        return Collections.unmodifiableList(Albums);
     }
 
     public void insert(Album album) {
