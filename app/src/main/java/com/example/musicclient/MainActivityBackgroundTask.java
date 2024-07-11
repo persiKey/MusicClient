@@ -11,14 +11,13 @@ import com.example.musicclient.datalayer.AlbumsSSOT;
 import com.example.musicclient.datalayer.Backend;
 import com.example.musicclient.datalayer.responses.Item;
 import com.example.musicclient.datalayer.responses.NewReleasesResponse;
-import com.example.musicclient.ui.AlbumAdapter;
+import com.example.musicclient.ui.NewReleasesAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -34,10 +33,10 @@ public class MainActivityBackgroundTask implements Runnable {
             "BQA2NRwjr5MQfyG9xZoRBTZCx-Vs2-vfGvVsbrzFfuhxSvtz7F8REU6-mIYDvh8VLe4PpK174zBc78GWOGcHUaqRcRYUUh3isCYeoZ4msxMxkDmtreE";
 
     private static String TAG = "MainActivityBackgroundTask";
-    private AlbumAdapter albumAdapter;
+    private NewReleasesAdapter newReleasesAdapter;
 
-    MainActivityBackgroundTask(AlbumAdapter adapter) {
-        albumAdapter = adapter;
+    MainActivityBackgroundTask(NewReleasesAdapter adapter) {
+        newReleasesAdapter = adapter;
     }
 
     @Override
@@ -88,7 +87,7 @@ public class MainActivityBackgroundTask implements Runnable {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        albumAdapter.notifyItemChanged(finalCounter);
+                        newReleasesAdapter.notifyItemChanged(finalCounter);
                     }
                 });
                 counter++;

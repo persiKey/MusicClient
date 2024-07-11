@@ -14,12 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.musicclient.datalayer.Album;
 import com.example.musicclient.datalayer.AlbumsSSOT;
-import com.example.musicclient.ui.AlbumAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.musicclient.ui.NewReleasesAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,16 +33,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        AlbumAdapter albumAdapter = new AlbumAdapter(AlbumsSSOT.GetInstance().getAlbums());
-        RecyclerView recyclerView = findViewById(R.id.album_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(albumAdapter);
+        NewReleasesAdapter newReleasesAdapter = new NewReleasesAdapter(AlbumsSSOT.GetInstance().getAlbums());
+        RecyclerView newReleasesRecyclerView = findViewById(R.id.new_releases_recycler);
+        newReleasesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        newReleasesRecyclerView.setAdapter(newReleasesAdapter);
 
         if (savedInstanceState == null) {
             backgroundWorker = new HandlerThread("Main Activity background worker");
             backgroundWorker.start();
             Handler myHandler = new Handler(backgroundWorker.getLooper());
-            myHandler.post(new MainActivityBackgroundTask(albumAdapter));
+            myHandler.post(new MainActivityBackgroundTask(newReleasesAdapter));
         }
 
 

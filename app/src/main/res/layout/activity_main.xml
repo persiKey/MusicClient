@@ -9,11 +9,11 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/album_recycler"
+        android:id="@+id/new_releases_recycler"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/recycleview_item"
+        tools:listitem="@layout/new_releases_recyclerview_item"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

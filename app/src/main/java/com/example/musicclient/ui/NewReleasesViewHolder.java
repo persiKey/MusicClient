@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicclient.R;
 
-public class AlbumViewHolder extends RecyclerView.ViewHolder {
+public class NewReleasesViewHolder extends RecyclerView.ViewHolder {
     private final ImageView imageView;
     private final TextView textView;
 
 
-    public AlbumViewHolder(@NonNull View itemView) {
+    public NewReleasesViewHolder(@NonNull View itemView) {
         super(itemView);
 
 

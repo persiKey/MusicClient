@@ -12,25 +12,25 @@ import com.example.musicclient.datalayer.Album;
 
 import java.util.List;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
+public class NewReleasesAdapter extends RecyclerView.Adapter<NewReleasesViewHolder> {
     List<Album> localAlbums;
 
-    public AlbumAdapter(List<Album> albums)
+    public NewReleasesAdapter(List<Album> albums)
     {
         localAlbums = albums;
     }
 
     @NonNull
     @Override
-    public AlbumViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NewReleasesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycleview_item, parent, false);
+                .inflate(R.layout.new_releases_recyclerview_item, parent, false);
 
-        return new AlbumViewHolder(view);
+        return new NewReleasesViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NewReleasesViewHolder holder, int position) {
         holder.getTextView().setText(localAlbums.get(position).name);
         if(localAlbums.get(position).cover != null) {
             holder.getImageView().setImageBitmap(localAlbums.get(position).cover);
