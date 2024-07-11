@@ -48,9 +48,9 @@ public class MainActivityBackgroundTask implements Runnable {
 
         Backend service = retrofit.create(Backend.class);
 
-        Call<NewReleasesResponse> res = service.getNewReleases(TOKEN, ALBUM_LIMIT);
+        Call<NewReleasesResponse> request = service.getNewReleases(TOKEN, ALBUM_LIMIT);
         try {
-            Response<NewReleasesResponse> response = res.execute();
+            Response<NewReleasesResponse> response = request.execute();
             if (response.isSuccessful()) {
                 Log.i(TAG, "Success");
                 HandleSuccess(response.body());

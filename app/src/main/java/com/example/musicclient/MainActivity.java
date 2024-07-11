@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
             Handler myHandler = new Handler(backgroundWorker.getLooper());
             myHandler.post(new MainActivityBackgroundTask(newReleasesAdapter));
         }
-
-
     }
 
     @Override
