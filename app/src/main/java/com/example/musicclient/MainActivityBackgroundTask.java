@@ -34,7 +34,7 @@ public class MainActivityBackgroundTask implements Runnable {
     static final int INDEX_OF_THE_BIGGEST_IMAGE = 2;
     static String TOKEN_TYPE = "Bearer ";
     public static String TOKEN = TOKEN_TYPE +
-            "BQAjESVi_8NKsmYPt7ukB_90JNvYNKOFeQa2JCY4xYDRtzLn_1P6VaLEyHti_QLkSaBuRKOJMReINxWoWpwEDfhckU2NqR3bTsT-UAHGXoah4bw-N4Y";
+            "BQCe4H4y5bJlPb31m--RUthhfqJkYZRb_iCnB5SMizX4U-0REd3jAbMeP66CJAizqVCRSyhfbK92C97sWUn154zm0XEuDWGp-eomVy4foaNXKilLcAI";
 
     private static String TAG = "MainActivityBackgroundTask";
 
