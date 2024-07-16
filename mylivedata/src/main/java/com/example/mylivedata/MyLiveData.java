@@ -14,8 +14,8 @@ public class MyLiveData<T> extends Object {
     private List<Observer<T>> _observers;
 
 
-    public MyLiveData(T data) {
-        _data = data;
+    public MyLiveData() {
+        _data = null;
         _observers = new ArrayList<>();
     }
 
@@ -42,7 +42,7 @@ public class MyLiveData<T> extends Object {
         return _data;
     }
 
-    void observe(Observer<T> observer) {
+    public void observe(Observer<T> observer) {
         _observers.add(observer);
     }
 }

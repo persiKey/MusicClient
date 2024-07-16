@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.musicclient.datalayer.Album;
 import com.example.musicclient.datalayer.AlbumsSSOT;
 import com.example.musicclient.ui.NewReleasesAdapter;
+import com.example.mylivedata.MyLiveData;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        MutableLiveData<Album> newAlbumLiveData = new MutableLiveData<>();
+        MyLiveData<Album> newAlbumLiveData = new MyLiveData<Album>();
 
-        newAlbumLiveData.observe(this, albumObserver);
+        newAlbumLiveData.observe(albumObserver);
 
         myHandler.post(new MainActivityBackgroundTask(newAlbumLiveData));
     }

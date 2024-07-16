@@ -14,6 +14,7 @@ import com.example.musicclient.datalayer.Backend;
 import com.example.musicclient.datalayer.responses.Item;
 import com.example.musicclient.datalayer.responses.NewReleasesResponse;
 import com.example.musicclient.ui.NewReleasesAdapter;
+import com.example.mylivedata.MyLiveData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,13 +34,14 @@ public class MainActivityBackgroundTask implements Runnable {
     static final int INDEX_OF_THE_BIGGEST_IMAGE = 2;
     static String TOKEN_TYPE = "Bearer ";
     public static String TOKEN = TOKEN_TYPE +
-            "BQDRsA0OBxXpPaWHSgugtqEbHtztWuy8l00NsfojPc4vj3PvQtibMCx-iCyocVaJqw90FhUjpQPLGes152RGT6C4g7pvFXo4tN8cQXpHnK7M5OoGpzU";
+            "BQCtvww0Tp83v2LeEyWukLrI2HGSZ_P_RtX4H7KRaED_ue6ZucR4rphgrZ4EwnOVhM-N3tsEajRTrcl4xzNP6-d_IkT1gOqszXSECIe8YySxKrP5eUE";
 
     private static String TAG = "MainActivityBackgroundTask";
 
-    private MutableLiveData<Album> newAlbum;
+//    private MutableLiveData<Album> newAlbum;
+    private MyLiveData<Album> newAlbum;
 
-    MainActivityBackgroundTask(MutableLiveData<Album> newAlbum) {
+    MainActivityBackgroundTask(MyLiveData<Album> newAlbum) {
         this.newAlbum = newAlbum;
     }
 
@@ -85,7 +87,7 @@ public class MainActivityBackgroundTask implements Runnable {
                 album.cover = myBitmap;
                 album.counter = counter;
 
-                newAlbum.postValue(album);
+                newAlbum.postData(album);
 
                 counter++;
 
