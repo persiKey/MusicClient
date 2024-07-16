@@ -2,7 +2,6 @@ package com.example.mylivedata;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Pair;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
@@ -18,30 +17,31 @@ import java.util.List;
 public class MyLiveData<T> extends Object {
     private T _data;
 
-    class LifecycleData {
-        LifecycleOwner owner = null;
-        LifecycleObserver observer = null;
+    class ObserverInfo {
+        Observer<T> dataObserver = null;
+        LifecycleOwner lifecycleOwner = null;
+        LifecycleObserver lifecycleObserver = null;
     }
 
-    private List<Pair<LifecycleData, Observer<T>>> _observers;
+    private List<ObserverInfo> _observersInfoList;
 
     public MyLiveData() {
         _data = null;
-        _observers = new ArrayList<>();
+        _observersInfoList = new ArrayList<>();
     }
 
     @MainThread
     public void setData(T data) {
         _data = data;
-        for (Pair<LifecycleData, Observer<T>> lifecycleDataObserverPair : _observers) {
-            if (lifecycleDataObserverPair.first == null) {
-                lifecycleDataObserverPair.second.onChanged(_data);
+        for (ObserverInfo observerInfo : _observersInfoList) {
+            if (observerInfo.lifecycleOwner == null) {
+                observerInfo.dataObserver.onChanged(_data);
                 return;
             }
 
-            Lifecycle.State state = lifecycleDataObserverPair.first.owner.getLifecycle().getCurrentState();
+            Lifecycle.State state = observerInfo.lifecycleOwner.getLifecycle().getCurrentState();
             if (Lifecycle.State.STARTED == state || Lifecycle.State.RESUMED == state) {
-                lifecycleDataObserverPair.second.onChanged(_data);
+                observerInfo.dataObserver.onChanged(_data);
             }
         }
     }
@@ -63,7 +63,12 @@ public class MyLiveData<T> extends Object {
 
     @MainThread
     public void observe(Observer<T> observer) {
-        _observers.add(new Pair<>(null, observer));
+
+        ObserverInfo observerInfo = new ObserverInfo();
+        observerInfo.dataObserver = observer;
+        observerInfo.lifecycleOwner = null;
+        observerInfo.lifecycleObserver = null;
+        _observersInfoList.add(observerInfo);
     }
 
     @MainThread
@@ -76,24 +81,25 @@ public class MyLiveData<T> extends Object {
             }
         };
 
-        LifecycleData lifecycleData = new LifecycleData();
-        lifecycleData.owner = owner;
-        lifecycleData.observer = lifecycleObserver;
+        ObserverInfo observerInfo = new ObserverInfo();
+        observerInfo.dataObserver = observer;
+        observerInfo.lifecycleOwner = owner;
+        observerInfo.lifecycleObserver = lifecycleObserver;
 
         owner.getLifecycle().addObserver(lifecycleObserver);
 
-        _observers.add(new Pair<>(lifecycleData, observer));
+        _observersInfoList.add(observerInfo);
     }
 
     @MainThread
     public void removeObserver(Observer<T> observer) {
-        for (int i = 0; i < _observers.size(); i++) {
-            if (_observers.get(i).second == observer) {
-                LifecycleData lifecycleData = _observers.get(i).first;
-                if (lifecycleData != null) {
-                    lifecycleData.owner.getLifecycle().removeObserver(lifecycleData.observer);
+        for (int i = 0; i < _observersInfoList.size(); i++) {
+            if (_observersInfoList.get(i).dataObserver == observer) {
+                ObserverInfo observerInfo = _observersInfoList.get(i);
+                if (observerInfo.lifecycleOwner != null) {
+                    observerInfo.lifecycleOwner.getLifecycle().removeObserver(observerInfo.lifecycleObserver);
                 }
-                _observers.remove(i);
+                _observersInfoList.remove(i);
                 return;
             }
         }
