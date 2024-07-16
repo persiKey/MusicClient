@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.musicclient.datalayer.Album;
 import com.example.musicclient.datalayer.AlbumsSSOT;
 import com.example.musicclient.datalayer.Backend;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -30,13 +33,14 @@ public class MainActivityBackgroundTask implements Runnable {
     static final int INDEX_OF_THE_BIGGEST_IMAGE = 2;
     static String TOKEN_TYPE = "Bearer ";
     public static String TOKEN = TOKEN_TYPE +
-            "BQA2NRwjr5MQfyG9xZoRBTZCx-Vs2-vfGvVsbrzFfuhxSvtz7F8REU6-mIYDvh8VLe4PpK174zBc78GWOGcHUaqRcRYUUh3isCYeoZ4msxMxkDmtreE";
+            "BQDRsA0OBxXpPaWHSgugtqEbHtztWuy8l00NsfojPc4vj3PvQtibMCx-iCyocVaJqw90FhUjpQPLGes152RGT6C4g7pvFXo4tN8cQXpHnK7M5OoGpzU";
 
     private static String TAG = "MainActivityBackgroundTask";
-    private NewReleasesAdapter newReleasesAdapter;
 
-    MainActivityBackgroundTask(NewReleasesAdapter adapter) {
-        newReleasesAdapter = adapter;
+    private MutableLiveData<Album> newAlbum;
+
+    MainActivityBackgroundTask(MutableLiveData<Album> newAlbum) {
+        this.newAlbum = newAlbum;
     }
 
     @Override
@@ -79,17 +83,10 @@ public class MainActivityBackgroundTask implements Runnable {
 
                 Album album = new Album(i.getName());
                 album.cover = myBitmap;
-                AlbumsSSOT.GetInstance().insert(album);
+                album.counter = counter;
 
-                Handler mainHandler = new Handler(Looper.getMainLooper());
+                newAlbum.postValue(album);
 
-                int finalCounter = counter;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        newReleasesAdapter.notifyItemChanged(finalCounter);
-                    }
-                });
                 counter++;
 
             } catch (MalformedURLException e) {
