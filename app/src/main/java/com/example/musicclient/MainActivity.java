@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         MyLiveData<Album> newAlbumLiveData = new MyLiveData<Album>();
 
-        newAlbumLiveData.observe(albumObserver);
+        newAlbumLiveData.observe(this, albumObserver);
 
         myHandler.post(new MainActivityBackgroundTask(newAlbumLiveData));
     }
