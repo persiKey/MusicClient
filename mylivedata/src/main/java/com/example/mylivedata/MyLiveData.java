@@ -77,9 +77,6 @@ public class MyLiveData<T> extends Object {
         for (int i = 0; i < _observers.size(); i++) {
             if(_observers.get(i).second == observer)
             {
-                if(_observers.get(i).first != null){
-
-                }
                 _observers.remove(i);
                 return;
             }
