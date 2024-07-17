@@ -36,13 +36,16 @@ public class MyLiveData<T> extends Object {
         for (ObserverInfo observerInfo : _observersInfoList) {
             if (observerInfo.lifecycleOwner == null) {
                 observerInfo.dataObserver.onChanged(_data);
-                return;
+                continue;
             }
 
             Lifecycle.State state = observerInfo.lifecycleOwner.getLifecycle().getCurrentState();
             if (Lifecycle.State.STARTED == state || Lifecycle.State.RESUMED == state) {
                 observerInfo.dataObserver.onChanged(_data);
+            } else if (Lifecycle.State.DESTROYED == state) {
+                continue;
             }
+
         }
     }
 
