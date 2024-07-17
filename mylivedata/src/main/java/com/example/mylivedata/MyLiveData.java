@@ -42,13 +42,14 @@ public class MyLiveData<T> extends Object {
             Lifecycle.State state = observerInfo.lifecycleOwner.getLifecycle().getCurrentState();
             if (Lifecycle.State.STARTED == state || Lifecycle.State.RESUMED == state) {
                 observerInfo.dataObserver.onChanged(_data);
+                continue;
             } else if (Lifecycle.State.DESTROYED == state) {
                 continue;
             }
 
             observerInfo.lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
                 @Override
-                public void onStart(@NonNull LifecycleOwner owner) {
+                public void onResume(@NonNull LifecycleOwner owner) {
                     DefaultLifecycleObserver.super.onStart(owner);
 
                     Looper mainLooper = Looper.getMainLooper();
