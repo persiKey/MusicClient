@@ -46,6 +46,21 @@ public class MyLiveData<T> extends Object {
                 continue;
             }
 
+            observerInfo.lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+                @Override
+                public void onStart(@NonNull LifecycleOwner owner) {
+                    DefaultLifecycleObserver.super.onStart(owner);
+
+                    Looper mainLooper = Looper.getMainLooper();
+                    Handler mainHandler = new Handler(mainLooper);
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            observerInfo.dataObserver.onChanged(_data);
+                        }
+                    });
+                }
+            });
         }
     }
 
