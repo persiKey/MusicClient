@@ -81,7 +81,7 @@ public class MyLiveData<T> extends Object {
     }
 
     @MainThread
-    public void observe(Observer<T> observer) {
+    public void observe(@NonNull Observer<T> observer) {
         for (ObserverInfo observeInfo : _observersInfoList) {
             if (observeInfo.dataObserver == observer) {
                 throw new IllegalArgumentException();

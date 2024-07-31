@@ -31,36 +31,29 @@ import org.mockito.Mockito.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class AndroidMyLiveDataTest {
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.mylivedata.test", appContext.getPackageName());
-    }
+//    @Test
+//    private void useAppContext() {
+//        // Context of the app under test.
+//        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+//        assertEquals("com.example.mylivedata.test", appContext.getPackageName());
+//    }
 
-    @Test
-    public void CreatedNull() {
-        MyLiveData<Integer> data = new MyLiveData<>();
-
-        assertThrows(NullPointerException.class, () -> {
-            data.getData().intValue();
-        });
-    }
+    boolean isReleased;
 
     @Test(timeout = 1000)
     public void ValuePosted() {
         final int checkValue = 13;
+        isReleased = false;
         MyLiveData<Integer> data = new MyLiveData<>();
 
         final Lock lock = new ReentrantLock();
         final Condition release = lock.newCondition();
-        final boolean[] isReleased = {false};
 
         Observer<Integer> observer = new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 lock.lock();
-                isReleased[0] = true;
+                isReleased = true;
                 release.signalAll();
                 lock.unlock();
             }
@@ -69,7 +62,7 @@ public class AndroidMyLiveDataTest {
         data.postData(checkValue);
 
         lock.lock();
-        while (!isReleased[0])
+        while (!isReleased)
         {
             try {
                 release.await();

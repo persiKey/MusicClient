@@ -16,6 +16,12 @@ public class MyLiveDataTest {
         assertEquals(checkValue, data.getData().intValue());
     }
 
+    @Test
+    public void CreatedNull() {
+        MyLiveData<Integer> data = new MyLiveData<>();
+
+        assertNull(data.getData());
+    }
 
     @Test
     public void ValueChanged() {
@@ -30,18 +36,6 @@ public class MyLiveDataTest {
         assertEquals(changedValue, data.getData().intValue());
     }
 
-    @Test
-    public void AddObserver() {
-        MyLiveData<Integer> data = new MyLiveData<>();
-        Observer<Integer> observer = new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-
-            }
-        };
-
-        data.observe(observer);
-    }
 
     @Test
     public void AddTwoTheSameObservers() {
@@ -56,4 +50,12 @@ public class MyLiveDataTest {
         data.observe(observer);
         assertThrows(IllegalArgumentException.class, () -> data.observe(observer));
     }
+
+    @Test
+    public void NullableObserver() {
+        MyLiveData<Integer> data = new MyLiveData<>();
+
+        data.observe(null);
+    }
+
 }
