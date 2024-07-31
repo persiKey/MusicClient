@@ -82,7 +82,11 @@ public class MyLiveData<T> extends Object {
 
     @MainThread
     public void observe(Observer<T> observer) {
-
+        for (ObserverInfo observeInfo : _observersInfoList) {
+            if (observeInfo.dataObserver == observer) {
+                throw new IllegalArgumentException();
+            }
+        }
         ObserverInfo observerInfo = new ObserverInfo();
         observerInfo.dataObserver = observer;
         observerInfo.lifecycleOwner = null;
@@ -92,6 +96,14 @@ public class MyLiveData<T> extends Object {
 
     @MainThread
     public void observe(LifecycleOwner owner, Observer<T> observer) {
+        for (ObserverInfo observeInfo : _observersInfoList) {
+            if (observeInfo.dataObserver == observer) {
+                if (observeInfo.lifecycleOwner != owner) {
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+
         LifecycleObserver lifecycleObserver = new DefaultLifecycleObserver() {
             @Override
             public void onDestroy(@NonNull LifecycleOwner owner) {

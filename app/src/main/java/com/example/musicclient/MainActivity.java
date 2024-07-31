@@ -4,6 +4,7 @@ package com.example.musicclient;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
 
 import androidx.activity.EdgeToEdge;
@@ -65,11 +66,19 @@ public class MainActivity extends AppCompatActivity {
         newAlbumLiveData.observe(this, albumObserver);
 
         myHandler.post(new MainActivityBackgroundTask(newAlbumLiveData));
+
+        Log.w(TAG, getName());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         backgroundWorker.quit();
+    }
+
+    private native String getName();
+
+    static {
+        System.loadLibrary("hello-jni");
     }
 }
